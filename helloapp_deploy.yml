@@ -4,7 +4,7 @@
 
 # disable apache httpd, to avoid conflicts with nginx
 
-- hosts: webserver2
+- hosts: webserver
   tasks:
   - name: Disable apache if present
     yum:
