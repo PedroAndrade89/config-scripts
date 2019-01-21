@@ -7,3 +7,5 @@ Use "ansible-playbook -u root --inventory-file=/etc/ansible/hosts /path/to/hello
 
 [webserver2]
 <server hostname>
+  
+  
