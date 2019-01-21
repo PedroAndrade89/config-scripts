@@ -6,6 +6,6 @@ Use "ansible-playbook -u root --inventory-file=/etc/ansible/hosts /path/to/hello
 /etc/ansible/hosts should have entry like below:
 
 [webserver2]
-<server hostname>
+"server hostname"
   
   
