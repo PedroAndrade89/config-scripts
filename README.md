@@ -26,3 +26,9 @@ Edit the host file in flask-deploy and run:
 ansible-playbook -u "ssh_user" --inventory-file=hosts helloapp_deploy.yml
 ```
 
+## Testing
+
+```
+curl -i -X GET "http://<webserver hostname>/hello"
+```
+
