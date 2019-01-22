@@ -56,29 +56,25 @@
     command: git config --global http.sslVerify false
     register: result
 
-  - name: config git user
-    command: git config --global user.name "PedroAndrade89"
-    register: result
+#  - name: config git user
+#    command: git config --global user.name "PedroAndrade89"
+#    register: result
 
-  - name: config git email
-    command: git config --global user.email "pedromca89@gmail.com"
-    register: result
+#  - name: config git email
+#    command: git config --global user.email "pedromca89@gmail.com"
+#    register: result
 
   - name: Clone repo
     git:
-      repo: 'https://github.com/PedroAndrade89/helloWorld.git'
-      dest: /var/www/helloWorld
+      repo: 'https://github.com/{{github_user}}/{{app_name}}.git'
+      dest: /var/www/{{app_name}}
       update: yes
 
   - name: Install flask and gunicron modules in virtualenv
     pip:
-      requirements: /var/www/helloWorld/requirements.txt
-      virtualenv: /var/www/helloWorld/venv
+      requirements: /var/www/{{app_name}}/requirements.txt
+      virtualenv: /var/www/{{app_name}}/venv
 
-#  - name: Configure nginx
-#    template:
-#      src: .helloapp.conf
-#      dest: /etc/nginx/sites-available/helloapp.conf
 
   - name: Creates directory /etc/nginx/sites-available/
     file:
@@ -86,13 +82,8 @@
       state: directory     
       mode: 0755
 
-#  - name: Configure nginx
-#    fetch:
-#      src: /var/www/helloWorld/helloapp.conf
-#      dest: /etc/nginx/sites-available/helloapp.conf
-
   - name: config nginx
-    command: cp /var/www/helloWorld/helloapp.conf /etc/nginx/sites-available/
+    command: cp /var/www/{{app_name}}/helloapp.conf /etc/nginx/sites-available/
     register: result
 
   - name: Remove default nginx site config
@@ -114,7 +105,7 @@
       enabled: yes
 
   - name: config init script
-    command: cp /var/www/helloWorld/helloapp /etc/init.d/helloapp
+    command: cp /var/www/{{app_name}}/helloapp /etc/init.d/helloapp
     register: result
 
   - name: setting permissions of file helloapp

@@ -1,0 +1,9 @@
+[webserver]
+pandrade-nginx2
+
+[webserver:vars]
+# Local variables for Ansible playbooks
+ansible_ssh_user=root
+github_user="github username"
+app_name="app name as seen in Github repository"
+
