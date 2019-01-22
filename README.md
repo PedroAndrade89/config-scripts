@@ -3,15 +3,7 @@ Poppulo project
 
 Requirements:
 
-inventory-file should have the following entries:
-
-[webserver]
-<server hostname>
-  
-[webserver:vars]
-ansible_ssh_user=root
-github_user="git hub username"
-app_name="app name as seen in GitHub"
+inventory-file should have structure as seen in hosts file
 
 Use "ansible-playbook -u root --inventory-file=/etc/ansible/hosts /path/to/helloapp_deploy.yml" run playbook against a host.
 
