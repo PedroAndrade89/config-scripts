@@ -1,9 +1,8 @@
 [webserver]
-"server host name"
+pandrade-nginx2
 
 [webserver:vars]
 # Local variables for Ansible playbooks
 ansible_ssh_user=root
 github_user=PedroAndrade89
-app_name=helloWorld   #aligned with GitHub repo name
-
+app_name=helloWorld
