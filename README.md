@@ -1,7 +1,7 @@
 # config-scripts
 Poppulo project
 
-Requirements:
+# Requirements
 
 inventory-file should have structure as seen in hosts file
 
