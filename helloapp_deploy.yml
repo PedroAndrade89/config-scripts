@@ -1,4 +1,4 @@
-# Ansible playbook to deploy helloApp in cento6
+# Ansible playbook to deploy flask application in cento6
 
 ---
 
