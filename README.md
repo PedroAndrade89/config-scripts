@@ -1,12 +1,20 @@
-# config-scripts
-Poppulo project
+# flask deploy
 
-# Requirements
+Ansible script to deploy flask application in cento6 
 
-inventory-file should have structure as seen in hosts file
+# Prerequesites
 
-Use "ansible-playbook -u root --inventory-file=/etc/ansible/hosts /path/to/helloapp_deploy.yml" run playbook against a host.
+You need to install ansible and have ssh access to the host where app will be deployed:
 
-flaskapp_deploy.yml is an ansible runbook to be run against centos6 OS systems, that will deploy a python flask app present in a GitHub repository
+pip install ansible
+git clone https://github.com/PedroAndrade89/flask-deploy.git
+cd flask-deploy
+
+# Deploying the app
+
+Edit the host file in flask-deploy 
+
+Run "ansible-playbook -u root --inventory-file=/path/to/host /path/to/helloapp_deploy.yml" 
+
   
   
