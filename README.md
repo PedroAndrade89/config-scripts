@@ -14,7 +14,7 @@ cd flask-deploy
 
 Edit the host file in flask-deploy 
 
-Run "ansible-playbook -u root --inventory-file=/path/to/host /path/to/helloapp_deploy.yml" 
+Run "ansible-playbook -u root --inventory-file=hosts helloapp_deploy.yml" 
 
   
   
