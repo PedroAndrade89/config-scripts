@@ -2,7 +2,7 @@
 
 Ansible script to deploy flask application in centos6 
 
-# Prerequesites
+## Prerequesites
 
 You need to install ansible and have ssh access to the host where app will be deployed:
 
@@ -12,7 +12,7 @@ git clone https://github.com/PedroAndrade89/flask-deploy.git
 cd flask-deploy
 ```
 
-# Deploying the app
+## Deploying the app
 
 Edit the host file in flask-deploy and run:
 ```
