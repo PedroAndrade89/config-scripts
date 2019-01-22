@@ -1,5 +1,5 @@
 [webserver]
-pandrade-nginx2
+"server host name"
 
 [webserver:vars]
 # Local variables for Ansible playbooks
