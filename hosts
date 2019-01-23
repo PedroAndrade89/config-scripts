@@ -3,6 +3,6 @@ pandrade-nginx3
 
 [webserver:vars]
 # Local variables for Ansible playbooks
-ssh_user=centos
+ssh_user=pedro
 github_user=PedroAndrade89
 app_name=helloapp
