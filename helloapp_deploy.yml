@@ -75,13 +75,6 @@
   become: yes
   become_method: sudo
   tasks:
-
-    - name: Setting temp environmental variables
-      environment:
-        APP_NAME: '{{app_name}}'
-        SSH_USER: '{{ssh_user}}'
-
-
     - name: Creates directory /etc/nginx/sites-available/
       file:
         path: /etc/nginx/sites-available/
@@ -118,6 +111,18 @@
       file:
         path: /etc/init.d/{{app_name}}
         mode: 0755
+
+    - replace:
+      path: /etc/init.d/{{app_name}}
+      regexp: 'APPLICATION_NAME=application'
+      replace: 'APPLICATION_NAME={{app_name}}'
+      backup: yes
+
+    - replace:
+      path: /etc/init.d/{{app_name}}
+      regexp: 'USER=user'
+      replace: 'USER={{ssh_user}}'
+      backup: yes
 
     - name: Making helloapp persistent across reboots
       command: chkconfig --add {{app_name}}
