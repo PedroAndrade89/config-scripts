@@ -6,7 +6,7 @@
   become: yes
   become_method: sudo
   tasks:
-    - name: Disable apache if present
+    - name: Disable Apache http if present
       yum:
         name: httpd
         state: absent
@@ -31,7 +31,7 @@
           - ntp
           - nginx
           - tree   
-          - git      
+          - git   
           - python-pip   
           - python-virtualenv
         state: present
@@ -47,10 +47,20 @@
     - selinux:
         state: disabled
 
+     # centos6.X
     - name: Stop iptables
       service: 
         name: iptables 
         state: stopped
+      ignore_errors: yes
+
+    # centos7.X
+    - name: Stop firewalld
+      systemd: 
+        name: firewalld 
+        state: stopped
+      ignore_errors: yes
+
 
     - name: config get http.sslVerify
       command: git config --global http.sslVerify false
@@ -85,10 +95,21 @@
       command: cp /home/{{ssh_user}}/{{app_name}}/{{app_name}}.conf /etc/nginx/sites-available/
       register: result
 
-    - name: Remove default nginx site config
+    
+    - name: Remove default nginx conf.d
       file: 
         path: /etc/nginx/conf.d/default.conf
         state: absent
+
+    - name: Remove default nginx site config
+      file: 
+        path: /etc/nginx/nginx.conf
+        state: absent
+
+    - name: config nginx config file
+      command: cp /home/{{ssh_user}}/{{app_name}}/nginx.conf /etc/nginx/nginx.conf
+      register: result
+
 
     - name: Create symbolic link from helloapp.conf /etc/nginx/sites-enabled/default 
       file:
@@ -102,6 +123,13 @@
         name: nginx 
         state: restarted 
         enabled: yes
+      ignore_errors: yes
+
+    - name: Restart nginx service
+      systemd: 
+        name: nginx 
+        state: restarted
+      ignore_errors: yes
 
     - name: config init script
       command: cp /home/{{ssh_user}}/{{app_name}}/{{app_name}}.init /etc/init.d/{{app_name}}
