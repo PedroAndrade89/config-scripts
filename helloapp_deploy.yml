@@ -113,16 +113,16 @@
         mode: 0755
 
     - replace:
-      path: /etc/init.d/{{app_name}}
-      regexp: 'APPLICATION_NAME=application'
-      replace: 'APPLICATION_NAME={{app_name}}'
-      backup: yes
+        path: /etc/init.d/{{app_name}}
+        regexp: 'APPLICATION_NAME=application'
+        replace: 'APPLICATION_NAME={{app_name}}'
+
 
     - replace:
-      path: /etc/init.d/{{app_name}}
-      regexp: 'USER=user'
-      replace: 'USER={{ssh_user}}'
-      backup: yes
+        path: /etc/init.d/{{app_name}}
+        regexp: 'SSH_USER=user'
+        replace: 'SSH_USER={{ssh_user}}'
+
 
     - name: Making helloapp persistent across reboots
       command: chkconfig --add {{app_name}}
