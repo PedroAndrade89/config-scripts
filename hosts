@@ -1,5 +1,5 @@
 [webserver]
-pandrade-nginx2
+pandrade-nginx3
 
 [webserver:vars]
 # Local variables for Ansible playbooks

@@ -11,6 +11,13 @@
         name: httpd
         state: absent
 
+    # install epel-release if not present
+
+    - name: Install epel-release if not present
+      yum: 
+        name: epel-release
+        state: latest
+
     # yum update -y
     - name: upgrade all packages
       yum: 
