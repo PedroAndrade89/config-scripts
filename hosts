@@ -5,4 +5,4 @@ pandrade-nginx2
 # Local variables for Ansible playbooks
 ssh_user=pedro
 github_user=PedroAndrade89
-app_name=helloWorld
+app_name=helloapp
