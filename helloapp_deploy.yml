@@ -71,14 +71,14 @@
     - name: Clone repo
       git:
         repo: 'https://github.com/{{github_user}}/{{app_name}}.git'
-        dest: /var/www/{{app_name}}
+        dest: /home/{{ssh_user}}/{{app_name}}
         force: yes
         update: yes
 
     - name: Install flask and gunicron modules in virtualenv
       pip:
-        requirements: /var/www/{{app_name}}/requirements.txt
-        virtualenv: /var/www/{{app_name}}/venv
+        requirements: /home/{{ssh_user}}/{{app_name}}/requirements.txt
+        virtualenv: /home/{{ssh_user}}/{{app_name}}/venv
 
 - hosts: webserver
   become: yes
@@ -91,7 +91,7 @@
         mode: 0755
 
     - name: config nginx
-      command: cp /var/www/{{app_name}}/{{app_name}}.conf /etc/nginx/sites-available/
+      command: cp /home/{{ssh_user}}/{{app_name}}/{{app_name}}.conf /etc/nginx/sites-available/
       register: result
 
     - name: Remove default nginx site config
@@ -113,7 +113,7 @@
         enabled: yes
 
     - name: config init script
-      command: cp /var/www/{{app_name}}/{{app_name}} /etc/init.d/{{app_name}}
+      command: cp /home/{{ssh_user}}/{{app_name}}/{{app_name}}.init /etc/init.d/{{app_name}}
       register: result
 
     - name: setting permissions of file helloapp
