@@ -45,26 +45,10 @@
         name: iptables 
         state: stopped
 
-    - name: Creates directory /var/www
-      file:
-        path: /var/www/
-        state: directory     
-        mode: 0755
-        owner: '{{ssh_user}}'
-        recurse: yes
-
-
     - name: config get http.sslVerify
       command: git config --global http.sslVerify false
       register: result
 
-#  - name: config git user
-#    command: git config --global user.name "PedroAndrade89"
-#    register: result
-
-#  - name: config git email
-#    command: git config --global user.email "pedromca89@gmail.com"
-#    register: result
 
 - hosts: webserver
   tasks:
