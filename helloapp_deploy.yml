@@ -75,6 +75,13 @@
   become: yes
   become_method: sudo
   tasks:
+
+    - name: Setting temp environmental variables
+      environment:
+        APP_NAME: '{{app_name}}'
+        SSH_USER: '{{ssh_user}}'
+
+
     - name: Creates directory /etc/nginx/sites-available/
       file:
         path: /etc/nginx/sites-available/
