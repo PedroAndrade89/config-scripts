@@ -1,6 +1,6 @@
 # flask deploy
 
-Ansible script to deploy flask application in centos6 
+Ansible script to deploy flask application in centos6.X and centos7.X 
 
 ### The playbook will:
 
