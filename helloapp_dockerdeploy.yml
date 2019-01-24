@@ -1,0 +1,61 @@
+ # Ansible playbook to deploy helloApp as a docker container
+
+---
+
+- hosts: webserver
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Install epel-release if not present
+      yum: 
+        name: epel-release
+        state: latest
+
+    - name: Update all installed yum packages
+      yum: 
+        name: '*'
+        state: latest
+
+    - name: Install docker and git 
+      yum: 
+        name: 
+          - docker
+          - git
+          - python-pip
+        state: latest
+
+    - name: install docker-py package
+      pip:
+        name: docker-py
+
+    - name: Start docker
+      service:
+        name: docker
+        state: started
+      
+- hosts: webserver
+  tasks:
+    - name: Clone repo
+      git:
+        repo: 'https://github.com/{{github_user}}/{{app_name}}.git'
+        dest: /home/{{ssh_user}}/{{app_name}}
+        force: yes
+        update: yes
+
+- hosts: webserver
+  become: yes
+  become_method: sudo
+  tasks:
+
+    - name: Build Docker image from Dockerfile
+      docker_image:
+        name: '{{app_name}}'
+        path: /home/{{ssh_user}}/{{app_name}}
+        state: build
+
+    - name: Running the container
+      docker_container:
+        name: '{{app_name}}'
+        image: '{{app_name}}'
+        state: started
+        published_ports: "8000:5000"
