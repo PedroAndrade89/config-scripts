@@ -86,13 +86,52 @@
   become: yes
   become_method: sudo
   tasks:
+    
+
+    - name: Config {{app_name}} upstart script
+      command: cp /home/{{ssh_user}}/{{app_name}}/{{app_name}}.init /etc/init.d/{{app_name}}
+      register: result
+
+    - name: Setting permissions of file /etc/init.d/{{app_name}}
+      file:
+        path: /etc/init.d/{{app_name}}
+        mode: 0755
+
+    - replace:
+        path: /etc/init.d/{{app_name}}
+        regexp: 'APPLICATION_NAME=application'
+        replace: 'APPLICATION_NAME={{app_name}}'
+
+
+    - replace:
+        path: /etc/init.d/{{app_name}}
+        regexp: 'SSH_USER=user'
+        replace: 'SSH_USER={{ssh_user}}'
+
+
+    - name: Making {{app_name}} persistent across reboots
+      command: chkconfig --add {{app_name}}
+      register: result
+
+     # centos6.X
+    - name: Stop {{app_name}} if already installed
+      service: 
+        name: '{{app_name}}'
+        state: stopped
+      ignore_errors: yes
+
+    - name: Start {{app_name}}
+      service:
+        name: '{{app_name}}'
+        state: restarted
+
     - name: Creates directory /etc/nginx/sites-available/
       file:
         path: /etc/nginx/sites-available/
         state: directory     
         mode: 0755
 
-    - name: Configure nginx step 1
+    - name: Configure nginx as reverse_proxy to {{app_name}} 
       command: cp /home/{{ssh_user}}/{{app_name}}/{{app_name}}.conf /etc/nginx/sites-available/
       register: result
 
@@ -131,43 +170,6 @@
         name: nginx 
         state: restarted
       ignore_errors: yes
-
-    - name: Config {{app_name}} upstart script
-      command: cp /home/{{ssh_user}}/{{app_name}}/{{app_name}}.init /etc/init.d/{{app_name}}
-      register: result
-
-    - name: Setting permissions of file /etc/init.d/{{app_name}}
-      file:
-        path: /etc/init.d/{{app_name}}
-        mode: 0755
-
-    - replace:
-        path: /etc/init.d/{{app_name}}
-        regexp: 'APPLICATION_NAME=application'
-        replace: 'APPLICATION_NAME={{app_name}}'
-
-
-    - replace:
-        path: /etc/init.d/{{app_name}}
-        regexp: 'SSH_USER=user'
-        replace: 'SSH_USER={{ssh_user}}'
-
-
-    - name: Making {{app_name}} persistent across reboots
-      command: chkconfig --add {{app_name}}
-      register: result
-
-     # centos6.X
-    - name: Stop {{app_name}} if already installed
-      service: 
-        name: '{{app_name}}'
-        state: stopped
-      ignore_errors: yes
-
-    - name: Start helloapp
-      service:
-        name: '{{app_name}}'
-        state: restarted
 
     
 
