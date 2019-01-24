@@ -16,7 +16,7 @@
         name: '*'
         state: latest
 
-    - name: Install docker and git 
+    - name: Install docker and git packages
       yum: 
         name: 
           - docker
@@ -24,18 +24,18 @@
           - python-pip
         state: latest
 
-    - name: install docker-py package
+    - name: Install docker-py package via pip
       pip:
         name: docker-py
 
-    - name: Start docker
+    - name: Start docker service
       service:
         name: docker
         state: started
       
 - hosts: webserver
   tasks:
-    - name: Clone repo
+    - name: Clone repo https://github.com/{{github_user}}/{{app_name}}.git
       git:
         repo: 'https://github.com/{{github_user}}/{{app_name}}.git'
         dest: /home/{{ssh_user}}/{{app_name}}
@@ -47,13 +47,13 @@
   become_method: sudo
   tasks:
 
-    - name: Build Docker image from Dockerfile
+    - name: Build Docker image {{app_name}} from Dockerfile
       docker_image:
         name: '{{app_name}}'
         path: /home/{{ssh_user}}/{{app_name}}
         state: build
 
-    - name: Running the container
+    - name: Run the container {{app_name}}
       docker_container:
         name: '{{app_name}}'
         image: '{{app_name}}'
