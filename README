@@ -1,0 +1,53 @@
+Pedro Andrade, Poppulo Systems engineer interview 2
+
+Brief description of the architecture:
+
+There are 2 ways to deploy the helloapp application
+
+	1. helloapp_deploy.yml
+
+		This ansible playbook, will deploy a python flask application together with a Python Web Server Gateway Interface called gunicorn running on port 8000, additionally, nginx web server is also deployed which will work as a reverse proxy to the application, this server is listening on port 80 and will redirect requests to port 8000
+
+		This ansible playbook can be deployed in a CentOS 6.X or CentOS 7.X server
+
+	2. helloapp_dockerdeploy.yml
+
+		This ansible playbook, will deploy a python flask application together with a Python Web Server Gateway Interface called gunicorn running on a docker container called helloapp, this container will be exposed on port 5000 and will map to host port 8000 additionally, nginx web server is also deployed which will work as a reverse proxy to the docker container running our application. the application, his server is listening on port 80 and will redirect requests to port 8000.
+
+		This ansible playbook can only be deployed in a CentOS 7.X server
+
+
+Requirements:
+
+Prior to running these playbooks a sudo user must exist or be created on the target server. (ex. create user and add it to wheel group)
+
+SSH keys with ssh agent are the best ways to use ansible. So it's best to use ssh-keygen to generate a key pair and then use ssh-copy-id command to copy the public key to the target host
+
+If this is setup correctly then the ansible ping command should be successfull:
+
+HW15468:flask-deploy pandrade$ ansible --inventory-file=hosts -m ping webserver -u karl
+pandrade-nginx3 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+
+
+
+Running the application:
+
+
+	1. tar -xzvf deploy_scripts.tar.gz
+	
+	2. cd /deploy_scripts
+
+	3. Edit hosts files and fill values <ssh_user> and <target hostname> accordingly
+
+	4. Run command "ansible-playbook -u <ssh_user> --inventory-file=hosts helloapp_deploy.yml" to deploy in CentOS 6.X or CentOS 7.X target hosts
+
+	5. Run command "ansible-playbook -u <ssh_user> --inventory-file=hosts helloapp_dockerdeploy.yml" to deploy in  CentOS 7.X target hosts
+
+	5. Open a browser and type "http://<target_hostname>/hello" or run command 'curl -i -X GET "http://<target_hostname>/hello"'
+
+
+
+
