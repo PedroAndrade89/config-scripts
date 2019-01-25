@@ -1,4 +1,4 @@
-# Ansible playbook to deploy helloApp in cento6
+# Ansible playbook to deploy helloApp in cento6.X/7.X
 
 ---
 
@@ -12,14 +12,12 @@
         name: httpd
         state: absent
 
-    # install epel-release if not present
 
     - name: Install epel-release if not present
       yum: 
         name: epel-release
         state: latest
 
-    # yum update -y
     - name: Upgrade all yum packages
       yum: 
         name: '*'
@@ -38,25 +36,32 @@
         state: present
     
 
-    - name: Start nginx
+    - name: Start nginx centos6
       service:
         name: nginx
         state: started
+      ignore_errors: yes
+
+    - name: Start nginx centos7
+      systemd:
+        name: nginx
+        state: started
+      ignore_errors: yes
 
 
     # Disable SELinux
     - selinux:
         state: disabled
 
-     # centos6.X
-    - name: Stop iptables
+
+    - name: Stop iptables centos6
       service: 
         name: iptables 
         state: stopped
       ignore_errors: yes
 
-    # centos7.X
-    - name: Stop firewalld
+
+    - name: Stop firewalld centos7
       systemd: 
         name: firewalld 
         state: stopped
