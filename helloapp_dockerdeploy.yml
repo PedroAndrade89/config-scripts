@@ -1,4 +1,4 @@
- # Ansible playbook to deploy helloApp as a docker container
+# Ansible playbook to deploy helloApp as a docker container
 
 ---
 
@@ -6,10 +6,17 @@
   become: yes
   become_method: sudo
   tasks:
-    - name: Install epel-release if not present
+
+    - name: Install epel-release and wget if not present
       yum: 
-        name: epel-release
+        name: 
+          - epel-release
+          - wget
         state: latest
+
+    - name: "Get docker-ce repository and add to yum repos"
+      command: sudo wget -nv https://download.docker.com/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo
+      register: result
 
     - name: Update all installed yum packages
       yum: 
@@ -19,39 +26,36 @@
     - name: Install required packages
       yum: 
         name: 
-          - docker
           - git
+          - gcc
           - python-pip
           - nginx
+          - docker-ce
         state: latest
+
 
     - name: Install docker-py package via pip
       pip:
         name: docker-py
 
+    
     - name: Start docker service
-      service:
-        name: docker
+      systemd: 
+        name: docker 
         state: started
+      ignore_errors: yes
 
-    - name: Start nginx
-      service:
-        name: nginx
+    - name: Start nginx service
+      systemd: 
+        name: nginx 
         state: started
+      ignore_errors: yes
 
 
-    # Disable SELinux
     - selinux:
         state: disabled
 
-     # centos6.X
-    - name: Stop iptables
-      service: 
-        name: iptables 
-        state: stopped
-      ignore_errors: yes
 
-    # centos7.X
     - name: Stop firewalld
       systemd: 
         name: firewalld 
@@ -123,14 +127,8 @@
         state: link
         force: yes
     
-    - name: Restart nginx service cento6
-      service:
-        name: nginx 
-        state: restarted 
-        enabled: yes
-      ignore_errors: yes
-
-    - name: Restart nginx service centos7
+    # centos7.X
+    - name: Restart nginx service
       systemd: 
         name: nginx 
         state: restarted
