@@ -23,26 +23,18 @@
         name: '*'
         state: latest 
 
-    - name: Install packages gcc, ntp, nginx, git, tree, python-pip, python-virtualenv
+    - name: Install packages gcc, ntp, nginx, python-pip, python-virtualenv
       yum:
         name:
           - gcc
           - ntp
-          - nginx
-          - tree   
-          - git   
+          - nginx  
           - python-pip   
           - python-virtualenv
         state: present
     
 
-    - name: Start nginx centos6
-      service:
-        name: nginx
-        state: started
-      ignore_errors: yes
-
-    - name: Start nginx centos7
+    - name: Start nginx 
       systemd:
         name: nginx
         state: started
@@ -68,19 +60,19 @@
       ignore_errors: yes
 
 
-    - name: Set git http.sslVerify to false
-      command: git config --global http.sslVerify false
-      register: result
-
-
 - hosts: webserver
   tasks:
-    - name: Clone repo https://github.com/{{github_user}}/{{app_name}}.git
-      git:
-        repo: 'https://github.com/{{github_user}}/{{app_name}}.git'
+
+    - name: Create app dir
+      file:
+        path: /home/{{ssh_user}}/{{app_name}}
+        state: directory
+        mode: '0755'
+
+    - name: Ansible copy app to remote server
+      copy:
+        src: /Users/pandrade/Documents/GitHub/flask-deploy/src/
         dest: /home/{{ssh_user}}/{{app_name}}
-        force: yes
-        update: yes
 
     - name: Install flask and gunicorn modules in virtualenv
       pip:
@@ -162,13 +154,6 @@
         dest: /etc/nginx/conf.d/default.conf
         state: link
         force: yes
-    
-    - name: Restart nginx service cento6
-      service:
-        name: nginx 
-        state: restarted 
-        enabled: yes
-      ignore_errors: yes
 
     - name: Restart nginx service centos7
       systemd: 
