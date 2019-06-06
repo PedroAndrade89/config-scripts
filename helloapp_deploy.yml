@@ -63,13 +63,13 @@
 - hosts: webserver
   tasks:
 
-    - name: Create app dir
+    - name: Create {{app_name}} dir in /home/{{ssh_user}}
       file:
         path: /home/{{ssh_user}}/{{app_name}}
         state: directory
         mode: '0755'
 
-    - name: Ansible copy app to remote server
+    - name: Copy src files to /home/{{ssh_user}}/{{app_name}}
       copy:
         src: /Users/pandrade/Documents/GitHub/flask-deploy/src/
         dest: /home/{{ssh_user}}/{{app_name}}
@@ -133,7 +133,7 @@
       register: result
 
     
-    - name: Remove old default.conf
+    - name: Remove old nginx default.conf file
       file: 
         path: /etc/nginx/conf.d/default.conf
         state: absent
@@ -155,14 +155,8 @@
         state: link
         force: yes
 
-    - name: Restart nginx service centos7
+    - name: Restart nginx service
       systemd: 
         name: nginx 
         state: restarted
       ignore_errors: yes
-
-    
-
-  
-
-  
