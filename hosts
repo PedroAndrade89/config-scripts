@@ -1,8 +1,8 @@
 [webserver]
-pandrade-nginx3
+pandrade-test-3
 
 [webserver:vars]
 # Local variables for Ansible playbooks
-ssh_user=pedro
+ssh_user=centos
 github_user=PedroAndrade89
 app_name=helloapp
