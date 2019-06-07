@@ -1,8 +1,0 @@
-[webserver]
-pandrade-test-3
-
-[webserver:vars]
-# Local variables for Ansible playbooks
-ssh_user=centos
-github_user=PedroAndrade89
-app_name=helloapp
