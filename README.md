@@ -32,6 +32,7 @@ cd flask-deploy
 Edit the host file in flask-deploy and run:
 ```
 ansible-playbook -u "ssh_user" --inventory-file=hosts helloapp_deploy.yml
+ansible-playbook -u "ssh_user" --inventory-file=hosts helloapp_dockerdeploy.yml
 ```
 
 ## Testing
