@@ -14,12 +14,6 @@ hello = 'hello world!'
 def get_hello():
 	return jsonify(body=hello)
 
-@app.route('/test1/')
-def test1():
-    1 / 0
-    return 'rest'
-
-
 @app.errorhandler(500)
 def handle_500(error):
     return str(error), 500
