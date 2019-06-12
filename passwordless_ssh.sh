@@ -16,7 +16,7 @@ set_ssh() {
 if [[ $# -lt 2 ]]; then
 	echo "Missing arguments! Usage : './passwordless_ssh.sh public_key_file hosts_list_file'"
 elif [[ $# -gt 2 ]]; then
-	echo "Missing arguments! Usage : './passwordless_ssh.sh public_key_file hosts_list_file'"
+	echo "Too many  arguments! Usage : './passwordless_ssh.sh public_key_file hosts_list_file'"
 else
 	set_ssh
 fi
