@@ -26,7 +26,6 @@
     - name: Install required packages
       yum: 
         name: 
-          - git
           - gcc
           - python-pip
           - nginx
