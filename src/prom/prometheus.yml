@@ -32,4 +32,4 @@ scrape_configs:
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
     static_configs:
-        - targets: ['172.26.85.42:9001', '172.26.85.42:9000']
+        - targets: ['localhost:9001', 'localhost:9000']
